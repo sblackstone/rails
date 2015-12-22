@@ -202,6 +202,11 @@ module ActiveRecord
         Owner.delete_all
       end
 
+      def test_long_primary_key
+        o = Owner.create(id: 1311016998372151528)
+        assert_equal 1311016998372151528, o.id
+      end
+
       def test_execute
         with_example_table do
           @conn.execute "INSERT INTO ex (number) VALUES (10)"
