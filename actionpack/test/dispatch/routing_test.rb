@@ -82,6 +82,16 @@ class TestRoutingMapper < ActionDispatch::IntegrationTest
     verify_redirect 'http://www.example.com/logout'
   end
 
+
+  def test_redirect_doesnt_unescape_encoded_slashes
+    draw do
+      get '/foo/:id', to: redirect("/other_place/%{id}")
+    end
+    get '/foo/abcd%2F1234'
+    verify_redirect 'http://www.example.com/other_place/abcd%2F1234'
+  end
+  
+
   def test_namespace_redirect
     draw do
       namespace :private do
